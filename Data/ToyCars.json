@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Red Sports Car",
+    "imageLink": "https://example.com/red-sports-car.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Blue Police Car",
+    "imageLink": "https://example.com/blue-police-car.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Yellow Monster Truck",
+    "imageLink": "https://example.com/yellow-monster-truck.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Green Off-Road Jeep",
+    "imageLink": "https://example.com/green-offroad-jeep.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Purple Race Car",
+    "imageLink": "https://example.com/purple-race-car.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Orange Convertible",
+    "imageLink": "https://example.com/orange-convertible.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Silver Sedan",
+    "imageLink": "https://example.com/silver-sedan.jpg"
+  },
+  {
+    "id": 8,
+    "name": "White Delivery Truck",
+    "imageLink": "https://example.com/white-delivery-truck.jpg"
+  }
+]
