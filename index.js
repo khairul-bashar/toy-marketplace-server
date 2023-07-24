@@ -1,22 +1,17 @@
-require('dotenv').config()
-const express = require("express")
-const app = express()
-const cors = require('cors')
-const port = process.env.Port || 3000
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const port = process.env.Port || 3000;
 
-
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Toy marketplace app is running")
-})
+  res.send("Toy marketplace app is running");
+});
 
-
-
-
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ro7xucx.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -25,7 +20,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function run() {
@@ -33,41 +28,57 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const toys_collection = client.db("toy-cars").collection("toys")
+    const toys_collection = client.db("toy-cars").collection("toys");
 
-    const indexKey = { name: 1 }
-    const indexOption = { name: "toy_name"}
-    await toys_collection.createIndex(indexKey, indexOption)
+    const indexKey = { name: 1 };
+    const indexOption = { name: "toy_name" };
+    await toys_collection.createIndex(indexKey, indexOption);
 
     app.post("/add-toys", async (req, res) => {
-      const body = req.body
-      const result = await toys_collection.insertOne(body)
-      res.send(result)
+      const body = req.body;
+      const result = await toys_collection.insertOne(body);
+      res.send(result);
       console.log(result);
-    })
-    
-    app.get("/allToys", async (req, res)=> {
+    });
+
+    app.get("/allToys", async (req, res) => {
       const result = await toys_collection.find({}).toArray();
+      res.send(result);
+    });
+
+    
+
+    app.get("/allToys/:subCategory", async (req, res) => {
+      // console.log(req.params.subCategory);
+      const result = await toys_collection
+        .find({
+          sub_category: req.params.subCategory,
+        })
+        .toArray();
+      res.send(result);
+    });
+  
+
+    app.get("/view-details/:id", async (req, res) => {
+      const toys = await toys_collection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+      res.send(toys);
+    });
+
+    app.get("/myToys/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await toys_collection
+        .find({ seller_email: req.params.email })
+        .toArray();
       res.send(result)
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
@@ -75,17 +86,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-
-
-
-
-
-
-
-
-
-
 app.listen(port, () => {
-  console.log(`Toy marketplace listening on port ${port}`)
-})
+  console.log(`Toy marketplace listening on port ${port}`);
+});
