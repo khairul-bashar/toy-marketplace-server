@@ -99,6 +99,22 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/sort", async (req, res) => {
+      let sort_type = {};
+      if (req.query?.sortby) {
+        sort_type = { sort_by: req.query.sortby };
+      }
+      let query = {};
+      if (req.query?.email) {
+        query = { seller_email: req.query.email };
+      }
+
+      const asc_des = sort_type.sort_by === "ascending" ? 1 : -1;
+      const toys = toys_collection.find(query, { sort: { price: asc_des } });
+      const result = await toys.toArray();
+      res.send(result);
+    });
+
 
     app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
