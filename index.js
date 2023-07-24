@@ -116,6 +116,16 @@ async function run() {
     });
 
 
+    app.get("/search", async (req, res) => {
+      const searchQuery = req.query?.query;
+      const result = await toys_collection
+        .find({ name: { $regex: searchQuery, $options: "i" } })
+        .toArray();
+      res.send(result);
+    });
+
+
+
     app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
       const result = await toys_collection.deleteOne({ _id: new ObjectId(id) });
