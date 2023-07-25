@@ -38,7 +38,7 @@ async function run() {
       const body = req.body;
       const result = await toys_collection.insertOne(body);
       res.send(result);
-      console.log(result);
+      // console.log(result);
     });
 
     app.get("/allToys", async (req, res) => {
@@ -75,7 +75,7 @@ async function run() {
 
     app.put("/update/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
+      // console.log(id);
       const data = req.body;
       const result = await toys_collection.updateOne(
         { _id: new ObjectId(id) },
